@@ -4,7 +4,7 @@
 
 
 
-#define NbPix 15
+#define NbPix 100
 #define LedPin 12
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NbPix, LedPin, NEO_GRB + NEO_KHZ800);
@@ -14,7 +14,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NbPix, LedPin, NEO_GRB + NEO_KHZ800)
 // read from memory.
 volatile int value = 0;
 volatile int value2 = 0;
-int filter = 6; //4 is about one notch per LED, 6 is about 2 notches
+int filter = 1; //4 is about one notch per LED, 6 is about 2 notches
 
 void interruptFunction() {
   value2++;
@@ -27,7 +27,7 @@ void setup() {
 
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
-//  strip.
+  //  strip.
 }
 
 void loop() {
@@ -35,23 +35,28 @@ void loop() {
   Serial.print("Pin was interrupted: ");
   Serial.print(value2);
   Serial.println(" times so far.");
-
-  for (uint16_t i = 0; i < value; i++)
-  {
-    strip.setPixelColor(i, strip.Color(0,255, 0));
-    strip.show();
-    delay(1);
-  }
+  //
+  //  for (uint16_t i = 0; i < value; i++)
+  //  {
+  //    strip.setPixelColor(i, strip.Color(0,255, 0));//GREEN
+  ////    strip.setPixelColor(i, strip.Color(0,0, 255));//BLUE
+  //    strip.show();
+  //    delay(1);
+  //  }
 
   if (value2 >= filter)
   {
+    strip.setPixelColor(value, strip.Color(0, 255, 0)); //GREEN
+    //    strip.setPixelColor(value, strip.Color(0,0, 255));//BLUE
+    strip.show();
     value++;
     value2 = 0;
   }
   if (value == 0)
     colorWipe(strip.Color(255, 0, 0), 0); // Red
-  if (value > NbPix+1)
+  if (value > NbPix + 1)
   {
+    colorWipe(strip.Color(255, 0, 0), 0); // Red
     value = 0;
   }
 
