@@ -14,7 +14,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NbPix, LedPin, NEO_GRB + NEO_KHZ800)
 // read from memory.
 volatile int value = 0;
 volatile int value2 = 0;
-int filter = 4;
+int filter = 6; //4 is about one notch per LED, 6 is about 2 notches
 
 void interruptFunction() {
   value2++;
@@ -27,6 +27,7 @@ void setup() {
 
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
+//  strip.
 }
 
 void loop() {
@@ -49,7 +50,7 @@ void loop() {
   }
   if (value == 0)
     colorWipe(strip.Color(255, 0, 0), 0); // Red
-  if (value > NbPix)
+  if (value > NbPix+1)
   {
     value = 0;
   }
