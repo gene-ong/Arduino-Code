@@ -15,14 +15,14 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NbPix, LedPin, NEO_GRB + NEO_KHZ800)
 volatile int value = 0;
 volatile int value2 = 0;
 int filter = 1; //4 is about one notch per LED, 6 is about 2 notches
-
+bool flip = false;
 void interruptFunction() {
   value2++;
 }
 
 
 void setup() {
-  Serial.begin(9600);
+//  Serial.begin(9600);
   enableInterrupt(ARDUINOPIN, interruptFunction, CHANGE);
 
   strip.begin();
@@ -31,38 +31,38 @@ void setup() {
 }
 
 void loop() {
-
-  Serial.print("Pin was interrupted: ");
-  Serial.print(value2);
-  Serial.println(" times so far.");
-  //
-  //  for (uint16_t i = 0; i < value; i++)
-  //  {
-  //    strip.setPixelColor(i, strip.Color(0,255, 0));//GREEN
-  ////    strip.setPixelColor(i, strip.Color(0,0, 255));//BLUE
-  //    strip.show();
-  //    delay(1);
-  //  }
+//value2++;
+//  Serial.print("Pin was interrupted: ");
+//  Serial.print(value2);
+//  Serial.println(" times so far.");
 
   if (value2 >= filter)
   {
-    strip.setPixelColor(value, strip.Color(0, 255, 0)); //GREEN
-    //    strip.setPixelColor(value, strip.Color(0,0, 255));//BLUE
+//    strip.setPixelColor(value, strip.Color(0, 255, 0)); //GREEN
+        strip.setPixelColor(value, strip.Color(0,0, 255));//BLUE
     strip.show();
     value++;
     value2 = 0;
   }
-  if (value == 0)
-    colorWipe(strip.Color(255, 0, 0), 0); // Red
+
   if (value > NbPix + 1)
   {
-//        rainbowCycle(1);
-        rainbow(300);
-      //  delay(5000);
-    colorWipe(strip.Color(255, 0, 0), 0); // Red
-    value = 0;
-  }
+    //            rainbowCycle(10); // cycles of different colours (like a LGBQT flag) more segmented than just rainbow
+    //        rainbow(300); //about 5 seconds of slow rainbow with slower/smoother transitions
+    //  delay(5000);
 
+
+    value = 0;
+    value2 = 0;
+    flip = !flip;
+  }
+  if (value == 0)
+  {
+    if (flip == true)
+      colorWipe(strip.Color(255,0,0), 0); // Red
+    if (flip == false)
+      colorWipe(strip.Color(255, 255, 0), 0); // Red
+  }
 }
 
 // Fill the dots one after the other with a color
