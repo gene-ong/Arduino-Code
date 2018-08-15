@@ -14,7 +14,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NbPix, LedPin, NEO_GRB + NEO_KHZ800)
 // read from memory.
 volatile int value = 0;
 volatile int value2 = 0;
-int filter = 1; //4 is about one notch per LED, 6 is about 2 notches
+int filter = 10; //4 is about one notch per LED, 6 is about 2 notches
 bool flip = false;
 void interruptFunction() {
   value2++;
@@ -45,7 +45,7 @@ void loop() {
     value2 = 0;
   }
 
-  if (value > NbPix + 1)
+  if (value > NbPix)
   {
     //            rainbowCycle(10); // cycles of different colours (like a LGBQT flag) more segmented than just rainbow
     //        rainbow(300); //about 5 seconds of slow rainbow with slower/smoother transitions
