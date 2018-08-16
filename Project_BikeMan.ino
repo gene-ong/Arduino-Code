@@ -1,11 +1,11 @@
 #include <Adafruit_NeoPixel.h>
 #include <EnableInterrupt.h>
-#define ARDUINOPIN 7
+#define ARDUINOPIN 12
 
 
 
 #define NbPix 100
-#define LedPin 12
+#define LedPin 10
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NbPix, LedPin, NEO_GRB + NEO_KHZ800);
 
@@ -18,11 +18,12 @@ int filter = 10; //4 is about one notch per LED, 6 is about 2 notches
 bool flip = false;
 void interruptFunction() {
   value2++;
+  //    Serial.print(value2);
 }
 
 
 void setup() {
-//  Serial.begin(9600);
+  //  Serial.begin(9600);
   enableInterrupt(ARDUINOPIN, interruptFunction, CHANGE);
 
   strip.begin();
@@ -31,15 +32,15 @@ void setup() {
 }
 
 void loop() {
-//value2++;
-//  Serial.print("Pin was interrupted: ");
-//  Serial.print(value2);
-//  Serial.println(" times so far.");
+  //value2++;
+  //  Serial.print("Pin was interrupted: ");
+  //  Serial.print(value2);
+  //  Serial.println(" times so far.");
 
   if (value2 >= filter)
   {
-//    strip.setPixelColor(value, strip.Color(0, 255, 0)); //GREEN
-        strip.setPixelColor(value, strip.Color(0,0, 255));//BLUE
+    strip.setPixelColor(value, strip.Color(0, 255, 0)); //GREEN
+
     strip.show();
     value++;
     value2 = 0;
@@ -59,9 +60,9 @@ void loop() {
   if (value == 0)
   {
     if (flip == true)
-      colorWipe(strip.Color(255,0,0), 0); // Red
+      colorWipe(strip.Color(255, 0, 0), 0); // Red
     if (flip == false)
-      colorWipe(strip.Color(255, 255, 0), 0); // Red
+      colorWipe(strip.Color(0, 0, 255), 0); // Blue
   }
 }
 
