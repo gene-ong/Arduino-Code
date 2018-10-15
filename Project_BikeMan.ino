@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <EnableInterrupt.h>
 #define ARDUINOPIN 12
-
+#define filter 1
 
 
 #define NbPix 100
@@ -12,9 +12,9 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NbPix, LedPin, NEO_GRB + NEO_KHZ800)
 // We need to declare the data exchange
 // variable to be volatile - the value is
 // read from memory.
-volatile int value = 0;
 volatile int value2 = 0;
-int filter = 10; //4 is about one notch per LED, 6 is about 2 notches
+
+; //4 is about one notch per LED, 6 is about 2 notches
 bool flip = false;
 void interruptFunction() {
   value2++;
@@ -32,6 +32,7 @@ void setup() {
 }
 
 void loop() {
+  static value;
   //value2++;
   //  Serial.print("Pin was interrupted: ");
   //  Serial.print(value2);
