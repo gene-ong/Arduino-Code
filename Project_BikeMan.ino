@@ -1,13 +1,13 @@
 #include <Adafruit_NeoPixel.h>
 #include <EnableInterrupt.h>
+
+//Macros
 #define ARDUINOPIN 12
-#define filter 1
+#define FILTER 1
+#define NB_PIX 100
+#define LED_PIN 10
 
-
-#define NbPix 100
-#define LedPin 10
-
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NbPix, LedPin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NB_PIX, LED_PIN, NEO_GRB + NEO_KHZ800);
 
 // We need to declare the data exchange
 // variable to be volatile - the value is
@@ -32,13 +32,13 @@ void setup() {
 }
 
 void loop() {
-  static value;
+  static uint8_t value;
   //value2++;
   //  Serial.print("Pin was interrupted: ");
   //  Serial.print(value2);
   //  Serial.println(" times so far.");
 
-  if (value2 >= filter)
+  if (value2 >= FILTER)
   {
     strip.setPixelColor(value, strip.Color(0, 255, 0)); //GREEN
 
@@ -47,7 +47,7 @@ void loop() {
     value2 = 0;
   }
 
-  if (value > NbPix)
+  if (value > NB_PIX)
   {
     //            rainbowCycle(10); // cycles of different colours (like a LGBQT flag) more segmented than just rainbow
     //        rainbow(300); //about 5 seconds of slow rainbow with slower/smoother transitions
@@ -69,7 +69,7 @@ void loop() {
 
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
-  for (uint16_t i = 0; i < NbPix; i++) {
+  for (uint16_t i = 0; i < NB_PIX; i++) {
     strip.setPixelColor(i, c);
     strip.show();
     delay(wait);
